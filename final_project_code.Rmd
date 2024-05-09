@@ -55,3 +55,6 @@ nba_stat$Center <- ifelse(grepl("C", nba_stat$Pos), 1, 0)
 center_log <- glm(Center ~ TRB+AST+STL+BLK+TOV+PF, nba_stat, family="binomial")
 summary(center_log)
 ```
+
+
+test
