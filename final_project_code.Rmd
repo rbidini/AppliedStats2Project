@@ -1,0 +1,57 @@
+---
+title: "Final Project Code"
+author: "Sujit Sivadanam"
+date: "2024-05-02"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+nba_stat <- read.csv("./nba_2023_24.csv")
+```
+
+## "Player's Style" Variables
+```{r}
+# 2PA/FGA
+nba_stat$X2P_style <- nba_stat$X2PA/nba_stat$FGA
+
+# 3PA/FGA
+nba_stat$X3P_style <- nba_stat$X3PA/nba_stat$FGA
+
+# Linear Model
+style_lm <- lm(PTS ~ Pos, nba_stat)
+summary(style_lm)
+```
+
+## Multiple Linear Regression
+
+```{r}
+pts_lm <- lm(PTS ~ MP+TRB+AST+STL+BLK+TOV+PF, nba_stat)
+summary(pts_lm)
+```
+
+## Logistic Regression #1
+
+Is the player's points per game above or below league average?
+
+```{r}
+# Create "Above average or not" variable
+nba_stat$Above_Avg <- ifelse(nba_stat$PTS >= mean(nba_stat$PTS), 1, 0)
+
+# Logistic Regression
+avgPTS_log <- glm(Above_Avg ~ TRB+AST+STL+BLK+TOV+PF, nba_stat, family="binomial")
+summary(avgPTS_log)
+```
+
+## Logistic Regression #2
+
+Does a player play center position?
+
+```{r}
+# Create "center or not" variable
+nba_stat$Center <- ifelse(grepl("C", nba_stat$Pos), 1, 0)
+
+# Logistic Regression
+center_log <- glm(Center ~ TRB+AST+STL+BLK+TOV+PF, nba_stat, family="binomial")
+summary(center_log)
+```
