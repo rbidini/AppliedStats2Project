@@ -55,6 +55,16 @@ nba_stat$Center <- ifelse(grepl("C", nba_stat$Pos), 1, 0)
 center_log <- glm(Center ~ TRB+AST+STL+BLK+TOV+PF, nba_stat, family="binomial")
 summary(center_log)
 ```
+```{r}
+# Calculate VIF 
+vif(pts_lm)
+```
+
+```{r}
+# AIC
+reduced_pts_lm <- step(pts_lm, direction="backward")
+summary(reduced_pts_lm)
+
+```
 
 
-test
